@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research in AI & Machine Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0a0e27;
+            --secondary-bg: #1a1f3a;
+            --accent: #00d9ff;
+            --accent-warm: #ff6b9d;
+            --text-primary: #e8edf4;
+            --text-secondary: #a0aec0;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Enhanced Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 217, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 107, 157, 0.1) 0%, transparent 50%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            width: 300%;
+            height: 300%;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(0, 217, 255, 0.03) 50px, rgba(0, 217, 255, 0.03) 51px),
+                repeating-linear-gradient(-45deg, transparent, transparent 50px, rgba(102, 126, 234, 0.03) 50px, rgba(102, 126, 234, 0.03) 51px);
+            animation: slide 60s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-33.33%, -33.33%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Particle effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 15s; }
+        .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 2s; animation-duration: 18s; }
+        .particle:nth-child(3) { left: 60%; top: 40%; animation-delay: 4s; animation-duration: 22s; }
+        .particle:nth-child(4) { left: 80%; top: 70%; animation-delay: 6s; animation-duration: 16s; }
+        .particle:nth-child(5) { left: 30%; top: 10%; animation-delay: 8s; animation-duration: 20s; }
+        .particle:nth-child(6) { left: 70%; top: 30%; animation-delay: 3s; animation-duration: 19s; }
+        .particle:nth-child(7) { left: 50%; top: 60%; animation-delay: 5s; animation-duration: 17s; }
+        .particle:nth-child(8) { left: 90%; top: 20%; animation-delay: 7s; animation-duration: 21s; }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translate(50px, -100px) scale(1.5);
+                opacity: 0.6;
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+        }
+
+        .logo-svg {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover .logo-svg {
+            transform: rotate(360deg);
+        }
+
+        .logo-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Space Mono', monospace;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .profile-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            width: 100%;
+            align-items: start;
+        }
+
+        /* Profile Picture Section */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .profile-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-name {
+            font-family: 'Space Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 3px;
+            text-align: center;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .profile-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .profile-picture-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            flex-shrink: 0;
+        }
+
+        .profile-picture {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            box-shadow: 0 15px 40px rgba(0, 217, 255, 0.3);
+            position: relative;
+            z-index: 2;
+            display: block;
+        }
+
+        .profile-picture-container::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-2);
+            border-radius: 20px;
+            top: 10px;
+            left: 10px;
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        .profile-picture-container::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 50%;
+            bottom: -10px;
+            right: -10px;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 3px solid var(--primary-bg);
+            box-shadow: 0 5px 15px rgba(0, 217, 255, 0.5);
+        }
+
+        .achievements-quick {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .achievements-side {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .achievement-badge {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(102, 126, 234, 0.1));
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--accent);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .achievement-badge:hover {
+            transform: translateX(10px);
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(102, 126, 234, 0.2));
+            box-shadow: 0 5px 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .achievement-icon {
+            font-size: 1.2rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 217, 255, 0.5));
+        }
+
+        .achievement-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .achievement-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .achievement-value {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* Academic Stats */
+        .academic-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.8s backwards;
+        }
+
+        .stat-card {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-warm));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero-text .subtitle {
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            animation: fadeInUp 0.8s ease-out 0.3s backwards;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.6s backwards;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid var(--accent);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary-bg);
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent);
+            color: var(--primary-bg);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            animation: fadeInRight 1s ease-out 0.3s backwards;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .code-window {
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .window-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot:nth-child(1) { background: #ff5f56; }
+        .dot:nth-child(2) { background: #ffbd2e; }
+        .dot:nth-child(3) { background: #27c93f; }
+
+        .code-content {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .code-line {
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .keyword { color: #ff6b9d; }
+        .function { color: #00d9ff; }
+        .string { color: #95e1d3; }
+        .comment { color: #6c7a89; }
+
+        /* Sections */
+        section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-2);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-family: 'Space Mono', monospace;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        /* Education Section */
+        .education-grid {
+            display: grid;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .education-card {
+            background: var(--secondary-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .education-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 40px rgba(0, 217, 255, 0.2);
+        }
+
+        .degree-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .institution {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .edu-details {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .gpa {
+            color: var(--accent-warm);
+            font-weight: 700;
+        }
+
+        /* Research Interests */
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .interest-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .interest-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 40px rgba(0, 217, 255, 0.3);
+        }
+
+        .interest-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .interest-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .interest-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Research Papers Section */
+        .papers-grid {
+            display: grid;
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .paper-card {
+            background: var(--secondary-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paper-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-2);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+
+        .paper-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 217, 255, 0.3);
+            border-color: var(--accent);
+        }
+
+        .paper-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .paper-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .paper-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            background: rgba(0, 217, 255, 0.1);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+        }
+
+        .paper-year {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .paper-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .paper-authors {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+        }
+
+        .paper-authors strong {
+            color: var(--accent);
+        }
+
+        .paper-description {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .paper-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            color: var(--text-primary);
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .paper-link {
+            font-family: 'Space Mono', monospace;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .paper-link:hover {
+            gap: 1rem;
+            color: var(--accent-warm);
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--secondary-bg);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 217, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            border-color: var(--accent);
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .contact-details h3 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-details p {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary-bg);
+            border-radius: 8px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 1.3rem;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: var(--primary-bg);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary-bg);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(0, 217, 255, 0.1);
+        }
+
+        footer p {
+            font-family: 'Space Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.8rem;
+            }
+
+            .hero-main,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-picture-container {
+                width: 150px;
+                height: 150px;
+            }
+
+            .profile-name {
+                font-size: 1.5rem;
+            }
+
+            .academic-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .interests-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .achievements-side {
+                order: 2;
+            }
+
+            .hero-visual {
+                order: 3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">
+                <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Circuit board style AI brain logo -->
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00d9ff;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#667eea;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Brain outline -->
+                    <path d="M50,15 C35,15 25,25 25,35 C25,40 26,44 28,47 C26,50 25,54 25,58 C25,68 32,76 42,78 C44,82 47,85 50,85 C53,85 56,82 58,78 C68,76 75,68 75,58 C75,54 74,50 72,47 C74,44 75,40 75,35 C75,25 65,15 50,15 Z" 
+                        fill="none" stroke="url(#logoGradient)" stroke-width="3"/>
+                    
+                    <!-- Neural network nodes -->
+                    <circle cx="40" cy="35" r="3" fill="#00d9ff"/>
+                    <circle cx="60" cy="35" r="3" fill="#00d9ff"/>
+                    <circle cx="50" cy="50" r="3" fill="#667eea"/>
+                    <circle cx="35" cy="55" r="3" fill="#ff6b9d"/>
+                    <circle cx="65" cy="55" r="3" fill="#ff6b9d"/>
+                    <circle cx="50" cy="70" r="3" fill="#00d9ff"/>
+                    
+                    <!-- Connecting lines -->
+                    <line x1="40" y1="35" x2="50" y2="50" stroke="url(#logoGradient)" stroke-width="1.5" opacity="0.6"/>
+                    <line x1="60" y1="35" x2="50" y2="50" stroke="url(#logoGradient)" stroke-width="1.5" opacity="0.6"/>
+                    <line x1="50" y1="50" x2="35" y2="55" stroke="url(#logoGradient)" stroke-width="1.5" opacity="0.6"/>
+                    <line x1="50" y1="50" x2="65" y2="55" stroke="url(#logoGradient)" stroke-width="1.5" opacity="0.6"/>
+                    <line x1="35" y1="55" x2="50" y2="70" stroke="url(#logoGradient)" stroke-width="1.5" opacity="0.6"/>
+                    <line x1="65" y1="55" x2="50" y2="70" stroke="url(#logoGradient)" stroke-width="1.5" opacity="0.6"/>
+                </svg>
+                <span class="logo-text">Computer Science</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#papers">Papers</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="about">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Centered Profile Section -->
+                <div class="profile-center">
+                    <div class="profile-section">
+                        <div class="profile-wrapper">
+                            <div class="profile-picture-container">
+                                <img src="profile.jpg" alt="Aung Ko Ko Oo" class="profile-picture">
+                            </div>
+                            <h2 class="profile-name">AUNG KO KO OO</h2>
+                            <p class="profile-title">Computer Science Researcher</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="hero-main">
+                    <!-- Left Side: Achievements -->
+                    <div class="achievements-side">
+                        <div class="achievement-badge">
+                            <span class="achievement-icon">🎓</span>
+                            <div class="achievement-text">
+                                <span class="achievement-label">Graduate</span>
+                                <span class="achievement-value">Univ. of Bath, UK</span>
+                            </div>
+                        </div>
+                        <div class="achievement-badge">
+                            <span class="achievement-icon">📚</span>
+                            <div class="achievement-text">
+                                <span class="achievement-label">Undergraduate</span>
+                                <span class="achievement-value">Univ. of the People, USA</span>
+                            </div>
+                        </div>
+                        <div class="achievement-badge">
+                            <span class="achievement-icon">⭐</span>
+                            <div class="achievement-text">
+                                <span class="achievement-label">Undergrad GPA</span>
+                                <span class="achievement-value">3.8/4.0</span>
+                            </div>
+                        </div>
+
+                        <!-- Academic Stats -->
+                        <div class="academic-stats" style="margin-top: 2rem;">
+                            <div class="stat-card">
+                                <div class="stat-number">2</div>
+                                <div class="stat-label">Degrees</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">3.8</div>
+                                <div class="stat-label">GPA</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">AI</div>
+                                <div class="stat-label">Focus</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: About & CTA -->
+                    <div class="hero-text">
+                        <h1>AI & Machine Learning</h1>
+                        <p class="subtitle">INNOVATION / RESEARCH / DEVELOPMENT</p>
+                        <p>Exploring the frontiers of artificial intelligence and machine learning. Passionate about developing intelligent systems that solve real-world problems and push the boundaries of what's possible.</p>
+                        
+                        <div class="cta-buttons">
+                            <a href="#papers" class="btn btn-primary">View Research</a>
+                            <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <p class="section-subtitle">ACADEMIC JOURNEY</p>
+            
+            <div class="education-grid">
+                <div class="education-card">
+                    <h3 class="degree-title">Master of Science in Computer Science</h3>
+                    <p class="institution">University of Bath, United Kingdom</p>
+                    <div class="edu-details">
+                        <span>🎓 Specialization: Artificial Intelligence</span>
+                        <span>📅 Currently Pursuing</span>
+                    </div>
+                </div>
+                
+                <div class="education-card">
+                    <h3 class="degree-title">Bachelor of Science in Computer Science</h3>
+                    <p class="institution">University of the People, USA</p>
+                    <div class="edu-details">
+                        <span class="gpa">GPA: 3.8/4.0</span>
+                        <span>📅 Graduated</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Interests Section -->
+    <section id="research">
+        <div class="container">
+            <h2 class="section-title">Research Interests</h2>
+            <p class="section-subtitle">AREAS OF FOCUS</p>
+            
+            <div class="interests-grid">
+                <div class="interest-card">
+                    <div class="interest-icon">🤖</div>
+                    <h3 class="interest-title">Artificial Intelligence</h3>
+                    <p class="interest-description">Developing intelligent systems and algorithms that enable machines to learn and make decisions.</p>
+                </div>
+                
+                <div class="interest-card">
+                    <div class="interest-icon">🧠</div>
+                    <h3 class="interest-title">Machine Learning</h3>
+                    <p class="interest-description">Exploring deep learning, neural networks, and advanced ML techniques for pattern recognition.</p>
+                </div>
+                
+                <div class="interest-card">
+                    <div class="interest-icon">📊</div>
+                    <h3 class="interest-title">Data Science</h3>
+                    <p class="interest-description">Extracting insights from complex datasets using statistical methods and computational techniques.</p>
+                </div>
+                
+                <div class="interest-card">
+                    <div class="interest-icon">🔬</div>
+                    <h3 class="interest-title">Computer Vision</h3>
+                    <p class="interest-description">Teaching computers to interpret and understand visual information from the world.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Papers Section -->
+    <section id="papers">
+        <div class="container">
+            <h2 class="section-title">Research Papers</h2>
+            <p class="section-subtitle">PUBLICATIONS & ONGOING RESEARCH</p>
+            
+            <div class="papers-grid">
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="paper-tag">Machine Learning</span>
+                        <span class="paper-year">2025</span>
+                    </div>
+                    <h3 class="paper-title">Deep Learning Approaches for Natural Language Processing</h3>
+                    <p class="paper-authors"><strong>Aung Ko Ko Oo</strong>, et al.</p>
+                    <p class="paper-description">This research investigates novel deep learning architectures for improving natural language understanding and generation. The study focuses on transformer-based models and their applications in multilingual contexts, exploring techniques to enhance model efficiency while maintaining high accuracy in language processing tasks.</p>
+                    <div class="paper-tags">
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">Transformers</span>
+                        <span class="tech-tag">Deep Learning</span>
+                    </div>
+                    <a href="#" class="paper-link">Read Full Paper →</a>
+                </div>
+
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="paper-tag">Computer Vision</span>
+                        <span class="paper-year">2024</span>
+                    </div>
+                    <h3 class="paper-title">Advanced Object Detection Using Convolutional Neural Networks</h3>
+                    <p class="paper-authors"><strong>Aung Ko Ko Oo</strong>, Research Team</p>
+                    <p class="paper-description">An exploration of state-of-the-art convolutional neural network architectures for real-time object detection and classification. This work presents optimized algorithms that achieve higher accuracy with reduced computational overhead, making them suitable for deployment in resource-constrained environments and edge computing applications.</p>
+                    <div class="paper-tags">
+                        <span class="tech-tag">CNN</span>
+                        <span class="tech-tag">Object Detection</span>
+                        <span class="tech-tag">Edge AI</span>
+                    </div>
+                    <a href="#" class="paper-link">Read Full Paper →</a>
+                </div>
+
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="paper-tag">AI Ethics</span>
+                        <span class="paper-year">2024</span>
+                    </div>
+                    <h3 class="paper-title">Ethical Considerations in Artificial Intelligence Systems</h3>
+                    <p class="paper-authors"><strong>Aung Ko Ko Oo</strong></p>
+                    <p class="paper-description">A comprehensive analysis of ethical frameworks for AI development and deployment. This paper addresses critical issues including algorithmic bias, fairness, transparency, and accountability in machine learning systems. It proposes practical guidelines for developing responsible AI that respects human rights and promotes social good.</p>
+                    <div class="paper-tags">
+                        <span class="tech-tag">AI Ethics</span>
+                        <span class="tech-tag">Fairness</span>
+                        <span class="tech-tag">Responsible AI</span>
+                    </div>
+                    <a href="#" class="paper-link">Read Full Paper →</a>
+                </div>
+
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="paper-tag">Reinforcement Learning</span>
+                        <span class="paper-year">In Progress</span>
+                    </div>
+                    <h3 class="paper-title">Optimization Techniques for Multi-Agent Reinforcement Learning</h3>
+                    <p class="paper-authors"><strong>Aung Ko Ko Oo</strong>, Collaborators</p>
+                    <p class="paper-description">Current research investigating advanced optimization strategies for multi-agent systems using reinforcement learning. The study explores cooperative and competitive scenarios, developing novel algorithms that improve agent coordination, decision-making efficiency, and overall system performance in complex dynamic environments.</p>
+                    <div class="paper-tags">
+                        <span class="tech-tag">Reinforcement Learning</span>
+                        <span class="tech-tag">Multi-Agent Systems</span>
+                        <span class="tech-tag">Optimization</span>
+                    </div>
+                    <a href="#" class="paper-link">Research in Progress →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">LET'S COLLABORATE</p>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <a href="AungKoKoOo@myuopeople.com">Send us an email</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h3>Location</h3>
+                            <p>Bath, United Kingdom</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🎓</div>
+                        <div class="contact-details">
+                            <h3>Affiliation</h3>
+                            <p>University of Bath</p>
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/aung-ko-ko-oo-ab3a9839a/" title="LinkedIn" class="social-link" title="LinkedIn">💼</a>
+                        <a href="https://github.com/sage2029" title="GitHub" class="social-link" title="GitHub">👨‍💻</a>
+                        <a href="https://www.researchgate.net/profile/Aung-Kokooo?ev=hdr_xprf" title="ResearchGate" class="social-link" title="ResearchGate">📚</a>
+                        <a href="https://www.facebook.com/mochi2029/" title="Facebook" class="social-link" title="Twitter">🐦</a>
+                    </div>
+                </div>
+                
+                <div class="contact-visual">
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <div class="code-content">
+                            <span class="code-line"><span class="comment"># Interested in collaboration?</span></span>
+                            <span class="code-line"></span>
+                            <span class="code-line"><span class="keyword">def</span> <span class="function">collaborate</span>():</span>
+                            <span class="code-line">    topics = [</span>
+                            <span class="code-line">        <span class="string">"AI Research"</span>,</span>
+                            <span class="code-line">        <span class="string">"Machine Learning"</span>,</span>
+                            <span class="code-line">        <span class="string">"Academic Projects"</span>,</span>
+                            <span class="code-line">        <span class="string">"Innovation"</span></span>
+                            <span class="code-line">    ]</span>
+                            <span class="code-line"></span>
+                            <span class="code-line">    <span class="keyword">return</span> <span class="string">"Let's connect!"</span></span>
+                            <span class="code-line"></span>
+                            <span class="code-line"><span class="comment"># Reach out anytime</span></span>
+                            <span class="code-line">contact = <span class="function">collaborate</span>()</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
